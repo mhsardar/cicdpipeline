@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="homePolicyImplementationSub_Flow" doc:id="8d2770c5-3d69-4522-9eed-214b2ffda306" >
+		<logger level="INFO" doc:name="Flow Start Indication" doc:id="687cae8c-55db-4dc7-a061-af71c6e7a22f" message="*********HOME POLICY IMPLEMENTAION FLOW********"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="d24cfee1-78f1-43d1-9134-b9597e4a77e3" >
+			<route >
+				<ee:transform doc:name="getProductPaymentDetailsRequest" doc:id="81848946-cf71-4c22-85d3-d5ab76b0c21a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+{
+    soapEnvelop:{
+        soapHeader:{
+            RequestContextSoapHeader:{
+                "DONumber" : 99,
+                "sysIdent" : 1,
+                "serialNum" : 15,
+                "WorkstationId" : 20,
+                "ApplicationId": "Portal",
+                "ApplicationVersion" : 2.5,
+                "OperationVersion" : 1.0,
+                "RequestId" : 1,
+                "timestamp" : now(),
+                "ZuluTime" : "20.00",
+                "ms" : "Exavalu",
+                "RequestTimestamp" : "NA",
+                "DebugMode" : "false",
+                "customerId" : message.attributes.queryParams.customerId
+            }
+        },
+        soapBody:{
+            "operationId" : "GetProductPaymentInfo",
+            inputArguments:{
+                Argument:{
+                    "Index" : 0,
+                    "Name" : "ClubCode",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 1,
+                    "Name" : "MembershipNumber",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 2,
+                    "Name" : "RoleCode",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 3,
+                    "Name" : "PolicyPrefix",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 4,
+                    "Name" : "PolicyNumber",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 5,
+                    "Name" : "ProductType",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                },
+                Argument:{
+                    "Index" : 6,
+                    "Name" : "CustomerId",
+                    "Direction" : "Input",
+                    "Type" : "Scalar",
+                    "Secured" : false,
+                    "EliminateEmpty" : false,
+                    "DataSize" : 0,
+                    "NonCacheKey" : false,
+                    "IsPrimaryKeyValue" : false,
+                    "ServerInactive" : false,
+                    "ClientInvisible" : false
+                }
+            }
+        }
+    }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+				<logger level="INFO" doc:name="BACK END CALL HERE" doc:id="6fcc92fa-8d08-4f75-96b2-0e24d30ff292" message="Sending request to back end. #[payload]" />
+			</route>
+			<route >
+				<ee:transform doc:name="getPolicyDetailsRequest" doc:id="9c23f036-6f65-45dc-8504-797ec9618dd1">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/xml
+---
+{
+soapEnvelope:
+	{
+		soapHeader:
+		{
+			"sysIdent":1236,
+			"serialNum":45862398,
+			"timestamp":now(),
+			"ZuluTime":"NA",
+			"ms":"NA",
+		},
+		soapBody:
+		{
+			operationId:"AIP.........",
+			
+				inputArguments:{
+					Argument:{
+					    "Index": "0",
+						"Name":"Policy",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+						
+					},
+					Argument:{
+						"Index":"0",
+						"Name":"Bustrnno",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+						
+						
+					},
+					Argument:{
+						
+						"Index":"0",
+						"Name":"EffectiveDate",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+							
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+					},
+					
+					Argument:{
+						
+						"Index":"0",
+						"Name":"ViewOptionsArray1",
+						"Direction":"Input",
+						"Type":"Argument",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"Index":"0",
+						"Name":"ViewKey",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+					
+					},
+					
+					Argument:{
+						
+						"Index":"0",
+						"Name":"ViewDriverSeq",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+					
+					},
+					
+					Argument:{
+						"Index":"0",
+						"Name":"ViewVehicleSeq",
+						"Direction":"Input",
+						"Type":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+				},
+					Argument:{
+						"Index":"0",
+						"ClubCode":"45545555lku8665",
+						"Direction":"Input",
+						"Type>":"Scalar",
+						"Secured":false,
+						"EliminateEmpty":false,
+						"DataSize":"0",
+						
+						"NonCacheKey":false,
+						"IsPrimaryKeyValue":false,
+						"ServerInactive":false,
+						"ClientInvisible":false
+				},
+				},
+			
+			
+		},
+						
+}
+
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="getPolicyDetailsReqVar"><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"datestring":"12.3.2019",
+	"year":"2019",
+	"M-D":"mar-2019",
+	"month":"march",
+	"day":"12"
+}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<logger level="INFO" doc:name="BACK END CALL HERE" doc:id="fb03629e-0521-467e-983c-30d9edd6026a" message="Sending request to back end. #[payload]"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="homePolicyResponseTransform" doc:id="d88096ab-b25f-41fc-912f-66d50b31bd64" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"paymentInfo" : "string",
+	"policyNumber" : "23487653",
+	"effectiveDate" : "10-9-2019",
+	"expirationDate" : "22-12-2019",
+	"packageType" : "package type",
+	"premium" : 5467,
+	"AllPerilsValue" : "all perils value",
+	"deductible" : 123,
+	"WindHailValue" : "wind hail value",
+	"windHail" : 123,
+	"windHailLabel" : "wind hail label",
+	"NamedStormValue" : "named storm value",
+	"namedStorm" : 123,
+	"InRenewal" : "in renewal",
+	"isRenewalDue" : "in renewal due",
+	"inRenewal" : true,
+	insuredAddress:
+	{
+		"typeAddress" : "home",
+		"street" : "36 Biren Roy Road",
+		"city" : "Calcutta",
+		"state" : "Calcutta",
+		"zip" : "700064"
+	},
+	payment:{
+		"minDue" : "string",
+		"getdueDate" : "string",
+		"dueDate" : "string",
+		"allowScheduledPayment" : true,
+		"allowCreditCard" : true,
+		"allowDebitCard" : true,
+		"allowEcheck" : true,
+		"autoPayKey" : "variable",
+		"allowAutoPaySetup" : true,
+		"paymentSchDt" : "string",
+		"formattedPaymentScheduledDate" : "12-20-2019",
+		"dateDiff" : "string",
+		"allowCancelScheduledPayment" : true,
+		"allowMakePayment" : true,
+		paymentDueInfo:{
+			"balanceAmount" : 123,
+			"minimumDue" : 123,
+			"dueDate" : "12-22-2019"
+		},
+		lastPayment:{
+			"payAmount" : "6000",
+			"amount" : 123,
+			"paymentDate" : "12-22-2019"
+		},
+		autoPayDetails:{
+			"autoPayAccountType": "savings",
+			"accountLastFour": "9087",
+			"cardType": "credit card",
+			"cardExpirationDate": "10/2024"
+		},
+		lastUsedAccount:{
+			"accKey" : "account key",
+			echeck:{
+				"accountKey": "account key",
+				"accountLastFour": "9998",
+				"bankName": "Bank of AAA",
+				"routingNumber": "string",
+				"accountHolderName": "string"
+			},
+			"eftId" : "string",
+			creditCard:{
+				"cardKey": "string",
+				"cardLastFour": "string",
+				"cardType": "string",
+				"cardHolderName": "string",
+				"expirationMonth": "string",
+				"cardexp": "string",
+				"expirationYear": "string",
+				"cvvIndicator": "string",
+				"cardTypeIndicator": "string",
+				"isDebitCard": "string",
+				"zip": "string"
+			}
+		},
+		pendingPayments:{
+			"pendingCash": 123,
+			"paymentsInTransit" : [
+				paymentEntry1:{
+					time:"567",
+					date:"567",
+					entrytype:"4567"
+				},
+				paymentEntry2:{
+					time:"567",
+					date:"567",
+					entrytype:"4567"
+				}
+			],
+			
+		},
+		scheduledPayment:{
+			"amount" : "number",
+			"paymentDate": "string",
+			"scheduledDate": "string",
+			"paymentType": "string",
+			"confirmationNumber": "string"
+		}
+	},
+	"insureds" :[
+		insureds1:{
+			"insuredId": "string",
+			"firstName": "string",
+			"lastName": "string"
+		},
+		insureds2:{
+			"insuredId": "string",
+			"firstName": "string",
+			"lastName": "string"
+		}
+	],
+	"discounts" : [],
+	"insuranceAgent" :{
+			"name": "name of agent",
+			"phone": "3456789876",
+			address:{
+				"street": "string",
+				"city": "string",
+				"state": "string",
+				"zip": "string"
+			}
+		},
+	"otherParty" : [
+		otherParty1:{
+			"type": "string",
+			"name": "string",
+			"loanNumber": "string",
+			address:{
+				"street": "string",
+				"city": "string",
+				"state": "string",
+				"zip": "string"
+			}
+		},
+		otherParty2:{
+			"type": "string",
+			"name": "string",
+			"loanNumber": "string",
+			address:{
+				"street": "string",
+				"city": "string",
+				"state": "string",
+				"zip": "string"
+			}
+		}
+	],
+	"propertyCoverages" : [
+		"coverageCode": "coverage code",
+		"coverageDescription": "coverage description",
+		"limit" : 123,
+		"premium" :123,
+		"frequency": "frequency",
+		"isDiscountApplied" : true,
+	],
+	"liabilityCoverages" : [
+		"covType": "full",
+		"covCode": "coverage code",
+		"coverageCode": "coverage code another",
+		"coverageDescription" : "description of coverage",
+		"limit" :123,
+		"premium" : 123,
+		"frequency": "frequency",
+		"isDiscountApplied" :true
+	]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="OUTPUT" doc:id="d975fa1b-7fb9-4c79-956e-201217f4882e" />
+	</flow>
+</mule>

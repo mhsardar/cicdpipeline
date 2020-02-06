@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="policyImplementationSub_Flow" doc:id="0f813e5b-66a1-466c-8119-a72c3105ea63" >
+		<set-variable value="message.attribute.customerId" doc:name="Set Variable" doc:id="674af1b2-2818-4fcf-92bd-7ff1865a6524" variableName="customerid"/>
+		<set-variable value="message.attribute.clubCode" doc:name="Set Variable" doc:id="fc82a536-74d0-4659-9dea-b47b6a85df52" variableName="clubCode"/>
+		<logger level="INFO" doc:name="Logger" doc:id="515fc928-6747-40cf-993b-7b036e6d8f58" message="#[attributes.queryParams.customerId]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bcce2801-e8ae-44ed-b493-a33f85fc7b1f" message="#[attributes.queryParams.clubCode]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e11bcd58-6357-485c-a7af-562abfe46fb0" message="*********STARTING POLICY FLOW**********"/>
+		<ee:transform doc:name="policyRequestTransform" doc:id="a1455844-d42f-47c7-aa56-0f1bc81fb0e3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+{
+    soapEnvelop:{
+        soapHeader:{
+            RequestContextSoapHeader:{
+                "DONumber" : 99,
+                "sysIdent" : 1,
+                "serialNum" : 15,
+                "WorkstationId" : 20,
+                "ApplicationId": "Portal",
+                "ApplicationVersion" : 2.5,
+                "OperationVersion" : 1.0,
+                "RequestId" : 1,
+                "timestamp" : "19.11",
+                "ZuluTime" : "20.00",
+                "ms" : "Exavalu",
+                "RequestTimestamp" : "20",
+                "DebugMode" : "false",
+                "EmployeeId" : 999999
+            }
+        },
+        soapBody:{
+            inputArguments:{
+                Argument:{
+                    "customerID" : message.attributes.queryParams.customerId,
+                    "clubCode" : message.attributes.queryParams.clubCode
+                }
+            }
+        }
+    }
+}
+ ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c4eb67fe-50ce-4d54-9966-2dd12888e6ea" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7c5bb87c-73c9-45a6-a041-1c69eca3d35d" message="SENDING REQUEST TO BACKEND"/>
+		<logger level="INFO" doc:name="Logger" doc:id="12d1736e-d03e-4078-91ce-2670446439dc" message="RESPONSE RECIEVED FROM BAKEND"/>
+		<ee:transform doc:name="policyResponseTransform" doc:id="a70dc686-0d11-4d44-9565-671616696e42" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+
+---
+{
+  "customerID": payload.soapEnvelop.soapBody.inputArguments.Argument.customerID,
+  "clubCode": payload.soapEnvelop.soapBody.inputArguments.Argument.clubCode,
+  "timestamp": now(),
+  "Policy": [
+    {
+      "policyNumber": "1254555",
+      "policyName": "HomePolicy"
+    },
+    {
+      "policyNumber": "587248645",
+      "policyName": "AutoPolicy"
+    }
+  ]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c1f448f3-22e3-4e01-8438-6934211ef6a1" message="#[payload]"/>
+	</flow>
+</mule>

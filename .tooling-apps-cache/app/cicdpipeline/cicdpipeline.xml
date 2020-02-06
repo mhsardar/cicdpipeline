@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="33d93997-604c-4d38-9e35-bf4098c6ca49" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="81fd7457-4e17-4150-b1e7-2cd225bcdc00" >
+		<http:listener-connection host="0.0.0.0" port="8085" />
+	</http:listener-config>
+	<flow name="cicdpipelineFlow" doc:id="de90e513-4396-4d23-a524-ce3132578b4c" >
+		<http:listener doc:name="Listener" doc:id="8dd04d20-9c8d-4ff4-9795-2e1b998513df" config-ref="HTTP_Listener_config1" path="/cicdpipeline"/>
+		<logger level="INFO" doc:name="Logger" doc:id="610572c2-b712-4d13-8fc8-6d9391b34fdf" message="pipeline demo"/>
+		<set-payload value="cicd pipeline testing " doc:name="Set Payload" doc:id="379b27c8-8675-4401-a949-700b922733d4" />
+	</flow>
+</mule>

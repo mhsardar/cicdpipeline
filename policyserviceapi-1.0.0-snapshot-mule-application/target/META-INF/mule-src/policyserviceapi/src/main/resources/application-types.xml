@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="policyResponsexml" format="xml">
+      <types:example format="xml" element="soapEnvelope" location="examples/policyResponse-1.xml"/>
+    </types:type>
+    <types:type name="responseOne" format="xml">
+      <types:example format="xml" element="soapEnvelop" location="examples/responeOne.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a70dc686-0d11-4d44-9565-671616696e42">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="responseOne"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

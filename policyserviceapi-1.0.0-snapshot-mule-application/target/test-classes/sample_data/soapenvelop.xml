@@ -1,0 +1,19 @@
+<soapEnvelope>
+  <soapHeader>
+    <customerID>234567890</customerID>
+    <clubCode>458628</clubCode>
+    <timestamp>12.32</timestamp>
+    <ZuluTime>11.30</ZuluTime>
+    <ms>12.53</ms>
+  </soapHeader>
+  <soapBody>
+    <homePolicy>
+      <policyNumber>1254555</policyNumber>
+      <policyName>HomePolicy</policyName>
+    </homePolicy>
+    <autoPolicy>
+      <policyNumber>587248645</policyNumber>
+      <policyName>AutoPolicy</policyName>
+    </autoPolicy>
+  </soapBody>
+</soapEnvelope>

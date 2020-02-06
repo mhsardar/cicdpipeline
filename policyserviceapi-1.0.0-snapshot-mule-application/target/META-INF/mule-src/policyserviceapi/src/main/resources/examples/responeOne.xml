@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapEnvelop>
+    <soapHeader>
+        <RequestContextSoapHeader>
+            <DONumber>99</DONumber>
+            <sysIdent>1</sysIdent>
+            <serialNum>15</serialNum>
+            <WorkstationId>20</WorkstationId>
+            <ApplicationId>Portal</ApplicationId>
+            <ApplicationVersion>2.5</ApplicationVersion>
+            <OperationVersion>1</OperationVersion>
+            <RequestId>1</RequestId>
+            <timestamp>19.11</timestamp>
+            <ZuluTime>20.00</ZuluTime>
+            <ms>Exavalu</ms>
+            <RequestTimestamp>20</RequestTimestamp>
+            <DebugMode>false</DebugMode>
+            <EmployeeId>999999</EmployeeId>
+        </RequestContextSoapHeader>
+    </soapHeader>
+    <soapBody>
+        <inputArguments>
+            <Argument>
+                <customerID>123456789876543</customerID>
+                <clubCode>158677</clubCode>
+            </Argument>
+        </inputArguments>
+    </soapBody>
+</soapEnvelop>

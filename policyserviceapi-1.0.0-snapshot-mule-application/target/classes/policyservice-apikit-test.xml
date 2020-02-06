@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd ">
+    <munit:config name="policyservice-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="0.0.0.0" port="4443" />
+    </http:request-config>
+    <munit:test name="get:\policy:policyservice-config-200-application\json-FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_policy_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\policy:policyservice-config-401--FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-401-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\policy:policyservice-config-404--FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-404-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\policy:policyservice-config-429--FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-429-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="429" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\policy:policyservice-config-500--FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-500-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\policy:policyservice-config-503--FlowTest" description="Verifying functionality of [get:\policy:policyservice-config-503-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\policy:policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/policy">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="503" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-200-application\json-FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_autopolicy_{autopolicynumber}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-401--FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-401-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-404--FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-404-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-429--FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-429-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="429" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-500--FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-500-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\autopolicy\(autoPolicyNumber):policyservice-config-503--FlowTest" description="Verifying functionality of [get:\autopolicy\(autoPolicyNumber):policyservice-config-503-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\autopolicy\(autoPolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="autoPolicyNumber" value="#['null']" doc:name="autoPolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/autopolicy/$(vars.autoPolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:query-params>#[{"clubCode":"","authorization_key":"","customerId":""}]</http:query-params>
+                <http:response-validator>
+                    <http:success-status-code-validator values="503" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-200-application\json-FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":""}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_homepolicy_{homepolicynumber}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-401--FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-401-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="401" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(401)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 401" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-404--FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-404-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-429--FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-429-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="429" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(429)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 429" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-500--FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-500-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="500" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(500)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 500" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\homepolicy\(homePolicyNumber):policyservice-config-503--FlowTest" description="Verifying functionality of [get:\homepolicy\(homePolicyNumber):policyservice-config-503-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="policyservice-main" />
+            <munit:enable-flow-source value="get:\homepolicy\(homePolicyNumber):policyservice-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="homePolicyNumber" value="#['null']" doc:name="homePolicyNumber" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/homepolicy/$(vars.homePolicyNumber)']">
+                <http:headers>#[{"client_secret":"","client_id":""}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="503" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(503)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 503" />
+        </munit:validation>
+    </munit:test>
+</mule>

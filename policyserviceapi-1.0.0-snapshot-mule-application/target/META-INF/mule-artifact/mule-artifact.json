@@ -1,0 +1,49 @@
+{
+  "configs": [
+    "autoPolicyImplementation.xml",
+    "serviceErrorHandler.xml",
+    "policyservice-apikit-test.xml",
+    "policyservice.xml",
+    "homePolicyImplementation.xml",
+    "policyImplementation.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:policyserviceapi:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": [
+        "api/exchange_modules/afd79888-16c6-487f-8caa-338e9d8c3207/datatype/1.0.0/datatype.raml",
+        "api/policyservice.raml",
+        "application-types.xml",
+        "autoPolicyImplementation.xml",
+        "config-properties.yaml",
+        "examples/policyResponse-1.xml",
+        "examples/policyResponse.xml",
+        "examples/responeOne.xml",
+        "exavalu-certificate.jks",
+        "homePolicyImplementation.xml",
+        "log4j2.xml",
+        "policyImplementation.xml",
+        "policyResponse.xml",
+        "policyservice.xml",
+        "serviceErrorHandler.xml",
+        "log4j2-test.xml",
+        "sample_data/design-info.json",
+        "sample_data/soapenvelop.xml",
+        "scaffolder/response/get_200_autopolicy_{autopolicynumber}_application_json.json",
+        "scaffolder/response/get_200_homepolicy_{homepolicynumber}_application_json.json",
+        "scaffolder/response/get_200_policy_application_json.json"
+      ],
+      "includeTestDependencies": "true",
+      "exportedPackages": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
