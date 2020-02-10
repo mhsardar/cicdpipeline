@@ -1,0 +1,9 @@
+anypoint:
+  username: hassans88
+  password: Mhsardar88@1988
+
+ cloudhub:
+  environment: Sandbox
+  app: pipelinedemo
+  bg: Micro
+  worker: 1
