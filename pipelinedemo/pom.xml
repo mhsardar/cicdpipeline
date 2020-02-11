@@ -21,16 +21,47 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
+				<groupId>org.mule.tools.maven</groupId>
+				<!-- <artifactId>mule-maven-plugin</artifactId> -->
+				<!-- <version>${mule.maven.plugin.version}</version> -->
 				<extensions>true</extensions>
-				<configuration>
-				</configuration>
+				
+			</plugin>
+			<plugin>
+			<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+	<configuration>
+			<cloudHubDeployment>
+				<muleVersion>${app.runtime}</muleVersion>
+				<username>hassans88</username>
+				<password>Mhsardar88@1988</password>
+				<environment>Sandbox</environment>
+				<region>eu-west-2</region>
+				<workerType>Micro</workerType>
+				<workers>1</workers>
+				<uri>https:anypoint.mulesoft.com</uri>
+				<applicationName>app-pipelinedemo</applicationName>
+			</cloudHubDeployment>
+			
+	</configuration>
+			
+			<executions>
+					<execution>
+						<id>deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+			</executions>
+			
 			</plugin>
 
-<!-- Read property file -->
-			<plugin>
+			<!-- Read property file -->
+		<!-- 	<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
 				<version>1.0.0</version>
@@ -48,31 +79,15 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- Deploy to Cloudhub -->
-			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<cloudHubDeployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<muleVersion>${mule.version}</muleVersion>
-						<!-- Deploy User Parameter -->
-						<username>${anypoint.username}</username>
-						<password>${anypoint.password}</password>
-						<!-- Environment Parameter -->
-						<environment>${cloudhub.environment}</environment>
-						<applicationName>${cloudhub.app}</applicationName>
-						<businessGroup>${cloudhub.bg}</businessGroup>
-						<workerType>${cloudhub.worker}</workerType>
-						<workers>1</workers>
-						<uri>https://anypoint.mulesoft.com/</uri>
-					</cloudHubDeployment>
-				</configuration>
+			
+			-->
+			
+				
+				
+				
 				<!-- <executions> <execution> <id>deploy</id> <phase>deploy</phase> <goals> 
 					<goal>deploy</goal> </goals> </execution> </executions> -->
-			</plugin>
+			
 
 		</plugins>
 	</build>
@@ -89,6 +104,13 @@
 			<artifactId>mule-sockets-connector</artifactId>
 			<version>1.1.5</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+<!-- added dependency hassan   -->
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.8.1</version>
+			<type>maven-plugin</type>
 		</dependency>
 	</dependencies>
 
