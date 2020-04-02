@@ -1,16 +1,21 @@
-pipeline 
-	{
-agent any 
-stages{
-			stage('Build application')
-			 {
-			 	bat'mvn clean install'
-			 }	
+pipeline {
+  agent any
+			  stages {
+			    stage('Unit Test') {
+			      steps {
+			        sh 'mvn clean test'
+			      }
+			    }
+			    
 			 
-			 stage('Deploy application to MuleSoft Cloudhub')
-			 {
-			 	bat'mvn package deploy -DmuleDeploy'
-			 }	
-			 
-		}
-	 }		
+			  
+			  stage('Deploy ARM') {
+			      environment {
+			        ANYPOINT_CREDENTIALS = credentials('deploy-anypoint-user')
+			      }
+			      steps {
+			        sh 'mvn deploy -P arm -Darm.target.name=local-4.2.2-ee -Danypoint.username=${ANYPOINT_CREDENTIALS_USR}  -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}'
+			      }
+    			}
+   
+ }
