@@ -35,7 +35,7 @@
 					<workerType>Micro</workerType>
 					<workers>1</workers>
 					<uri>https:anypoint.mulesoft.com</uri>
-					<applicationName>pipelinedemo</applicationName>
+					<applicationName>demoProj</applicationName>
 			</cloudHubDeployment>
 				</configuration>
 			</plugin>
