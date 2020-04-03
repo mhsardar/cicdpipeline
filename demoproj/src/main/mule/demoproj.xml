@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a2edef62-1fb2-4f92-a5f9-9ba6b155ed1e" >
+		<http:listener-connection host="0.0.0.0" port="8086" />
+	</http:listener-config>
+	<global-property doc:name="Global Property" doc:id="fdea9563-dfa5-44f2-a49f-3a31cf510042" name="config" value="config.yaml" />
+	<flow name="demoProj" doc:id="51d95c14-e14d-4904-86d5-268843071e34" >
+		<http:listener doc:name="Listener" doc:id="17900909-71bb-4146-809c-d78de9b26f5c" config-ref="HTTP_Listener_config" path="/pipeline"/>
+		<logger level="INFO" doc:name="Logger" doc:id="64406f29-8d72-4dbf-995c-2eacf2552177" message="ci/cd pipeline "/>
+		<set-payload value="First CI/CD pipeline demo project" doc:name="Set Payload" doc:id="fb8a0adf-2538-4461-81d2-ff9dc12e427a" />
+	</flow>
+</mule>
